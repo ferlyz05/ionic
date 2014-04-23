@@ -39,24 +39,25 @@ function keyboardNativeShow(e) {
 
 function keyboardBrowserFocusIn(e) {
   if( !e.target || !ionic.tap.isTextInput(e.target) || !keyboardIsWithinScroll(e.target) ) return;
+
+  window.addEventListener('scroll', keyboardOnScroll, false);
+
   document.body.scrollTop = 0;
-  document.querySelector('.scroll-content').scrollTop = 0;
+  document.body.querySelector('.scroll-content').scrollTop = 0;
 
-  ionic.requestAnimationFrame(function(){
-    document.body.scrollTop = 0;
-  });
+  keyboardActiveElement = e.target;
 
-  clearTimeout(keyboardFocusInTimer);
-  keyboardFocusInTimer = setTimeout(function(){
-    keyboardSetShow(e);
-  }, 32);
+  keyboardSetShow(e);
 }
 
 function keyboardSetShow(e) {
-  var keyboardHeight = keyboardGetHeight();
-  var elementBounds = e.target.getBoundingClientRect();
+  clearTimeout(keyboardFocusInTimer);
+  keyboardFocusInTimer = setTimeout(function(){
+    var keyboardHeight = keyboardGetHeight();
+    var elementBounds = keyboardActiveElement.getBoundingClientRect();
 
-  keyboardShow(e.target, elementBounds.top, elementBounds.bottom, keyboardViewportHeight, keyboardHeight);
+    keyboardShow(e.target, elementBounds.top, elementBounds.bottom, keyboardViewportHeight, keyboardHeight);
+  }, 32);
 }
 
 function keyboardShow(element, elementTop, elementBottom, viewportHeight, keyboardHeight) {
@@ -114,17 +115,13 @@ function keyboardFocusOut(e) {
   clearTimeout(keyboardResetTimer);
   keyboardResetTimer = setTimeout(function() {
     keyboardHide();
-
-    // if we change orientation when the keyboard is open, get device height
-    // once keyboard closes to get the proper value
-    keyboardUpdateViewportHeight();
-
-    ionic.keyboard.isOpen = false;
-  }, 400);
+  }, 350);
 }
 
 function keyboardHide() {
   console.debug('keyboardHide');
+  ionic.keyboard.isOpen = false;
+
   ionic.trigger('resetScrollView', {
     target: keyboardActiveElement
   }, true);
@@ -135,11 +132,19 @@ function keyboardHide() {
 
   // the keyboard is gone now, remove the touchmove that disables native scroll
   document.removeEventListener('touchmove', keyboardDisableNativeScroll);
+  window.removeEventListener('scroll', keyboardOnScroll);
 }
 
 function keyboardUpdateViewportHeight() {
   if( window.innerHeight > keyboardViewportHeight ) {
     keyboardViewportHeight = window.innerHeight;
+  }
+}
+
+function keyboardOnScroll(e) {
+  if(document.body.scrollTop > 0) {
+    document.body.scrollTop = 0;
+    document.body.querySelector('.scroll-content').scrollTop = 0;
   }
 }
 
