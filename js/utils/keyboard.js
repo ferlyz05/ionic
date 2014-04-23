@@ -68,9 +68,6 @@ function keyboardShow(element, elementTop, elementBottom, viewportHeight, keyboa
     keyboardHeight: keyboardHeight
   };
 
-  console.debug('innerHeight', window.innerHeight);
-  console.debug('viewportHeight', viewportHeight);
-
   if( keyboardIsOverWebView() ) {
     // keyboard sits on top of the view, but doesn't adjust the view's height
     // lower the content height by subtracting the keyboard height from the view height

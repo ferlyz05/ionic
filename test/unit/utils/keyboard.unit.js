@@ -126,17 +126,6 @@ describe('Ionic Keyboard', function() {
     expect( keyboardGetHeight() ).toEqual(275);
   });
 
-  it('keyboardGetHeight() should = difference in window height before and after keyboard show if view resizes', function(){
-    keyboardViewportHeight = 460;
-    window.innerHeight = 260;
-    expect( keyboardGetHeight() ).toEqual(200);
-  });
-
-  it('keyboardGetHeight() should = cordova.plugins.Keyboard.height if plugin exists', function(){
-    cordova = { plugins: { Keyboard: { height: 200 } } };
-    expect( keyboardGetHeight() ).toEqual(200);
-  });
-
   it('keyboardUpdateViewportHeight() should update when ionic.keyboard.isOpen() is false', function(){
     ionic.keyboard.isOpen = false;
     window.innerHeight = 460;
@@ -179,7 +168,7 @@ describe('Ionic Keyboard', function() {
     expect( details.isElementUnderKeyboard ).toEqual(false);
   });
 
-  it('Should not subtract the keyboard height from the contentHeight if window.innerHeight < viewportHeight', function(){
+  it('Should not subtract the keyboard height from the contentHeight if not keyboardIsOverWebView()', function(){
     var element = document.createElement('textarea');
     var elementTop = 300;
     var elementBottom = 400;
@@ -192,7 +181,10 @@ describe('Ionic Keyboard', function() {
     expect( details.contentHeight ).toEqual(260);
   });
 
-  it('Should subtract the keyboard height from the contentHeight if window.innerHeight >= viewportHeight', function(){
+  it('Should subtract the keyboard height from the contentHeight if keyboardIsOverWebView()', function(){
+    ionic.Platform.setPlatform('iOS');
+    ionic.Platform.setVersion('7.1');
+
     var element = document.createElement('textarea');
     var elementTop = 300;
     var elementBottom = 400;
