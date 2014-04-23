@@ -8,7 +8,7 @@ IONIC KEYBOARD
 var keyboardViewportHeight = window.innerHeight;
 var keyboardIsOpen;
 var keyboardActiveElement;
-var keyboardResetTimer;
+var keyboardFocusOutTimer;
 var keyboardFocusInTimer;
 
 var DEFAULT_KEYBOARD_HEIGHT = 275;
@@ -52,6 +52,8 @@ function keyboardBrowserFocusIn(e) {
 
 function keyboardSetShow(e) {
   clearTimeout(keyboardFocusInTimer);
+  clearTimeout(keyboardFocusOutTimer);
+
   keyboardFocusInTimer = setTimeout(function(){
     var keyboardHeight = keyboardGetHeight();
     var elementBounds = keyboardActiveElement.getBoundingClientRect();
@@ -88,7 +90,6 @@ function keyboardShow(element, elementTop, elementBottom, viewportHeight, keyboa
   // figure out if the element is under the keyboard
   details.isElementUnderKeyboard = (details.elementBottom > details.contentHeight);
 
-  clearTimeout(keyboardResetTimer);
   ionic.keyboard.isOpen = true;
 
   // send event so the scroll view adjusts
@@ -108,11 +109,10 @@ function keyboardShow(element, elementTop, elementBottom, viewportHeight, keyboa
 }
 
 function keyboardFocusOut(e) {
-  // wait to see if we're just switching inputs
-  clearTimeout(keyboardResetTimer);
-  keyboardResetTimer = setTimeout(function() {
-    keyboardHide();
-  }, 350);
+  clearTimeout(keyboardFocusInTimer);
+  clearTimeout(keyboardFocusOutTimer);
+
+  keyboardFocusOutTimer = setTimeout(keyboardHide, 350);
 }
 
 function keyboardHide() {
