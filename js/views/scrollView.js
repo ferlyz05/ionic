@@ -647,7 +647,7 @@ ionic.views.Scroll = ionic.views.View.inherit({
           console.debug('scrollChildIntoView', scrollTop);
           ionic.tap.cloneFocusedInput(container, self);
           self.scrollBy(0, scrollTop, true);
-        }, 32);
+        }, 350);
       }
 
       //Only the first scrollView parent of the element that broadcasted this event
