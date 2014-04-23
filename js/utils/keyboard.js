@@ -20,15 +20,15 @@ ionic.keyboard = {
   height: null
 };
 
-function keyboardInit() {
+function keyboardInit(documentBody) {
   if( keyboardHasPlugin() ) {
     window.addEventListener('native.showkeyboard', keyboardNativeShow);
   }
-  window.addEventListener('ionic.focusin', keyboardBrowserFocusIn);
-  window.addEventListener('focusin', keyboardBrowserFocusIn);
+  documentBody.addEventListener('ionic.focusin', keyboardBrowserFocusIn);
+  documentBody.addEventListener('focusin', keyboardBrowserFocusIn);
 
-  window.addEventListener('focusout', keyboardFocusOut);
-  window.addEventListener('orientationchange', keyboardOrientationChange);
+  documentBody.addEventListener('focusout', keyboardFocusOut);
+  documentBody.addEventListener('orientationchange', keyboardOrientationChange);
 
   document.removeEventListener('touchstart', keyboardInit);
 }
@@ -71,14 +71,14 @@ function keyboardShow(element, elementTop, elementBottom, viewportHeight, keyboa
   console.debug('innerHeight', window.innerHeight);
   console.debug('viewportHeight', viewportHeight);
 
-  if( window.innerHeight < viewportHeight ) {
-    // view's height was shrunk down and the keyboard takes up the space the view doesn't fill
-    // do not add extra padding at the bottom of the scroll view, native already did that
-    details.contentHeight = window.innerHeight;
-  } else {
+  if( keyboardIsOverWebView() ) {
     // keyboard sits on top of the view, but doesn't adjust the view's height
     // lower the content height by subtracting the keyboard height from the view height
     details.contentHeight = viewportHeight - keyboardHeight;
+  } else {
+    // view's height was shrunk down and the keyboard takes up the space the view doesn't fill
+    // do not add extra padding at the bottom of the scroll view, native already did that
+    details.contentHeight = keyboardViewportHeight;
   }
 
   console.debug('keyboardShow', keyboardHeight, details.contentHeight);
@@ -161,15 +161,6 @@ function keyboardGetHeight() {
     return ionic.keyboard.height;
   }
 
-  // Not using the plugin, so try and determine the height of the keyboard by
-  // the difference in window height
-  if( window.innerHeight < keyboardViewportHeight ) {
-
-    ionic.keyboard.height = keyboardViewportHeight - window.innerHeight;
-
-    return ionic.keyboard.height;
-  }
-
   if( ionic.Platform.isIOS() ) {
     if( ionic.Platform.isWebView() ) {
       return 200;
@@ -214,7 +205,7 @@ ionic.Platform.ready(function() {
   // only initialize the adjustments for the virtual keyboard
   // if a touchstart event happens
   //document.addEventListener('touchstart', keyboardInit, false);
-  keyboardInit();
+  keyboardInit(document.body);
 
 });
 
