@@ -42,6 +42,10 @@ function keyboardBrowserFocusIn(e) {
   document.body.scrollTop = 0;
   document.querySelector('.scroll-content').scrollTop = 0;
 
+  ionic.requestAnimationFrame(function(){
+    document.body.scrollTop = 0;
+  });
+
   clearTimeout(keyboardFocusInTimer);
   keyboardFocusInTimer = setTimeout(function(){
     keyboardSetShow(e);

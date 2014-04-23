@@ -4,7 +4,7 @@
 Physical Device Testing Scenarios
 ---------------------------------
 - focusing inputs below the keyboard should scroll them into the middle of the view
-- focusing inputs that are above the keyboard should not do anything
+- focusing inputs that are above the keyboard should not scroll, but still resize the scrollable content area
 - focusing inputs should resize the scroll view so the user can scroll to inputs at the bottom of the page
 - clicking the label of an input should focus that input
 - focusing an input that is mostly offscreen should scroll into view using js scrolling, not the browser scrolling it into view
