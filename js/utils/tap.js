@@ -339,7 +339,6 @@ function tapHandleFocus(ele) {
 
   if(ele.tagName == 'SELECT') {
     // trick to force Android options to show up
-    console.debug('tapHandleFocus', ele.tagName);
     triggerMouseEvent('mousedown', ele, 0, 0);
     ele.focus && ele.focus();
     triggerFocusIn = true;
@@ -349,7 +348,6 @@ function tapHandleFocus(ele) {
     triggerFocusIn = true;
 
   } else if( (/input|textarea/i).test(ele.tagName) ) {
-    console.debug('tapHandleFocus', ele.tagName, ele.id);
     triggerFocusIn = true;
     ele.focus && ele.focus();
     ele.value = ele.value;

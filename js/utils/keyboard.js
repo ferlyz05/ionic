@@ -65,8 +65,8 @@ function keyboardSetShow(e) {
 function keyboardShow(element, elementTop, elementBottom, viewportHeight, keyboardHeight) {
   var details = {
     target: element,
-    elementTop: elementTop,
-    elementBottom: elementBottom,
+    elementTop: Math.round(elementTop),
+    elementBottom: Math.round(elementBottom),
     keyboardHeight: keyboardHeight
   };
 
@@ -83,7 +83,7 @@ function keyboardShow(element, elementTop, elementBottom, viewportHeight, keyboa
   console.debug('keyboardShow', keyboardHeight, details.contentHeight);
 
   // distance from top of input to the top of the keyboard
-  details.keyboardTopOffset = Math.round(details.elementTop - details.contentHeight);
+  details.keyboardTopOffset = details.elementTop - details.contentHeight;
 
   console.debug('keyboardTopOffset', details.elementTop, details.contentHeight, details.keyboardTopOffset);
 
