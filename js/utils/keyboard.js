@@ -75,7 +75,7 @@ function keyboardShow(element, elementTop, elementBottom, viewportHeight, keyboa
   } else {
     // view's height was shrunk down and the keyboard takes up the space the view doesn't fill
     // do not add extra padding at the bottom of the scroll view, native already did that
-    details.contentHeight = keyboardViewportHeight;
+    details.contentHeight = viewportHeight;
   }
 
   console.debug('keyboardShow', keyboardHeight, details.contentHeight);

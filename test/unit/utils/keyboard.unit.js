@@ -126,8 +126,7 @@ describe('Ionic Keyboard', function() {
     expect( keyboardGetHeight() ).toEqual(275);
   });
 
-  it('keyboardUpdateViewportHeight() should update when ionic.keyboard.isOpen() is false', function(){
-    ionic.keyboard.isOpen = false;
+  it('keyboardUpdateViewportHeight() should update when window.innerHeight > keyboardViewportHeight', function(){
     window.innerHeight = 460;
     keyboardViewportHeight = 320;
     keyboardUpdateViewportHeight();
@@ -135,8 +134,7 @@ describe('Ionic Keyboard', function() {
     expect( keyboardViewportHeight ).toEqual(460);
   });
 
-  it('keyboardUpdateViewportHeight() should not update when ionic.keyboard.isOpen() is true', function(){
-    ionic.keyboard.isOpen = true;
+  it('keyboardUpdateViewportHeight() should not update when window.innerHeight < keyboardViewportHeight', function(){
     window.innerHeight = 100;
     keyboardViewportHeight = 320;
     keyboardUpdateViewportHeight();
@@ -149,8 +147,7 @@ describe('Ionic Keyboard', function() {
     var elementTop = 300;
     var elementBottom = 400;
     var keyboardHeight = 200;
-    window.innerHeight = 500;
-    var deviceHeight = 500;
+    var deviceHeight = 260;
     var details = keyboardShow(element, elementTop, elementBottom, deviceHeight, keyboardHeight);
 
     expect( details.isElementUnderKeyboard ).toEqual(true);
@@ -161,7 +158,6 @@ describe('Ionic Keyboard', function() {
     var elementTop = 100;
     var elementBottom = 200;
     var keyboardHeight = 200;
-    window.innerHeight = 500;
     var deviceHeight = 500;
     var details = keyboardShow(element, elementTop, elementBottom, deviceHeight, keyboardHeight);
 
@@ -173,9 +169,7 @@ describe('Ionic Keyboard', function() {
     var elementTop = 300;
     var elementBottom = 400;
     var keyboardHeight = 200;
-
-    var deviceHeight = 460;
-    window.innerHeight = 260;
+    var deviceHeight = 260;
     var details = keyboardShow(element, elementTop, elementBottom, deviceHeight, keyboardHeight);
 
     expect( details.contentHeight ).toEqual(260);
@@ -189,9 +183,7 @@ describe('Ionic Keyboard', function() {
     var elementTop = 300;
     var elementBottom = 400;
     var keyboardHeight = 200;
-
     var deviceHeight = 568;
-    window.innerHeight = 568;
     var details = keyboardShow(element, elementTop, elementBottom, deviceHeight, keyboardHeight);
 
     expect( details.contentHeight ).toEqual(368);
