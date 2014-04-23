@@ -639,6 +639,7 @@ ionic.views.Scroll = ionic.views.View.inherit({
       if( e.detail.isElementUnderKeyboard ) {
         //Put element in middle of visible screen
         //Wait for resize() to reset scroll position
+        ionic.scroll.isScrolling = true;
         setTimeout(function(){
           //middle of the scrollview, where we want to scroll to)
           var scrollViewMidpointOffset = container.clientHeight * 0.5;
@@ -661,6 +662,7 @@ ionic.views.Scroll = ionic.views.View.inherit({
       container.style.height = "";
       container.style.overflow = "";
       self.resize();
+      ionic.scroll.isScrolling = false;
     });
 
 
