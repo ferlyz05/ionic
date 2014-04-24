@@ -40,7 +40,6 @@ function keyboardNativeShow(e) {
 function keyboardBrowserFocusIn(e) {
   if( !e.target || !ionic.tap.isTextInput(e.target) || !keyboardIsWithinScroll(e.target) ) return;
 
-  window.addEventListener('scroll', keyboardOnScroll, false);
   document.addEventListener('keydown', keyboardOnKeyDown, false);
 
   document.body.scrollTop = 0;
@@ -131,19 +130,11 @@ function keyboardHide() {
   // the keyboard is gone now, remove the touchmove that disables native scroll
   document.removeEventListener('touchmove', keyboardPreventDefault);
   document.removeEventListener('keydown', keyboardOnKeyDown);
-  window.removeEventListener('scroll', keyboardOnScroll);
 }
 
 function keyboardUpdateViewportHeight() {
   if( window.innerHeight > keyboardViewportHeight ) {
     keyboardViewportHeight = window.innerHeight;
-  }
-}
-
-function keyboardOnScroll(e) {
-  if(document.body.scrollTop > 0) {
-    document.body.scrollTop = 0;
-    document.body.querySelector('.scroll-content').scrollTop = 0;
   }
 }
 
