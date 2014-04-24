@@ -43,7 +43,7 @@ describe('Ionic Viewport', function() {
     ionic.Platform.setVersion('7.0');
     expect( ionic.Platform.isAndroid() ).toEqual(false);
     expect( ionic.Platform.isIOS() ).toEqual(true);
-    //
+    
     //so isWebView() is true
     window.cordova = {};
 
@@ -52,15 +52,34 @@ describe('Ionic Viewport', function() {
   });
 
   it('Should not have height=device-height for iOS 7+ on browser', function(){
+    ionic.Platform.setPlatform('iOS');
+    ionic.Platform.setVersion('7.0');
+    expect( ionic.Platform.isAndroid() ).toEqual(false);
+    expect( ionic.Platform.isIOS() ).toEqual(true);
 
+    viewportLoadTag();
+    expect( viewportProperties.height ).not.toEqual('device-height'); 
   });
 
   it('Should have height=device-height for Android on webview', function(){
+    ionic.Platform.setPlatform('Android');
+    expect( ionic.Platform.isAndroid() ).toEqual(true);
+    expect( ionic.Platform.isIOS() ).toEqual(false);
 
+    //so isWebView() is true
+    window.cordova = {};
+
+    viewportLoadTag();
+    expect( viewportProperties.height ).toEqual('device-height'); 
   });
 
   it('Should not have height=device-height for Android on browser', function(){
+    ionic.Platform.setPlatform('Android');
+    expect( ionic.Platform.isAndroid() ).toEqual(true);
+    expect( ionic.Platform.isIOS() ).toEqual(false);
 
+    viewportLoadTag();
+    expect( viewportProperties.height ).not.toEqual('device-height');
   });
 
 });
