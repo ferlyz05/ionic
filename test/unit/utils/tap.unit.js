@@ -216,20 +216,6 @@ describe('Ionic Tap', function() {
     expect( tapPointerMoved ).toEqual(false);
   });
 
-  it('Should preventDefault on text input target on iOS', function() {
-    // prevent the default so iOS doesn't auto scroll to the input
-    ionic.Platform.setPlatform('ios');
-    var label = document.createElement('label');
-    var textarea = document.createElement('textarea');
-    label.appendChild(textarea);
-    var e = {
-      target: label,
-      preventDefault: function() { e.preventedDefault = true; }
-    };
-    tapTouchEnd(e);
-    expect( e.preventedDefault ).toEqual(true);
-  });
-
   it('Should not preventDefault on text input target thats not iOS', function() {
     // do not prevent default on touchend of a text input or else you cannot move the text caret
     ionic.Platform.setPlatform('android');
