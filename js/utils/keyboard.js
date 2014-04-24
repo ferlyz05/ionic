@@ -41,6 +41,7 @@ function keyboardBrowserFocusIn(e) {
   if( !e.target || !ionic.tap.isTextInput(e.target) || !keyboardIsWithinScroll(e.target) ) return;
 
   window.addEventListener('scroll', keyboardOnScroll, false);
+  document.addEventListener('keydown', keyboardOnKeyDown, false);
 
   document.body.scrollTop = 0;
   document.body.querySelector('.scroll-content').scrollTop = 0;
@@ -103,7 +104,7 @@ function keyboardShow(element, elementTop, elementBottom, viewportHeight, keyboa
   // any showing part of the document that isn't within the scroll the user
   // could touchmove and cause some ugly changes to the app, so disable
   // any touchmove events while the keyboard is open using e.preventDefault()
-  document.addEventListener('touchmove', keyboardDisableNativeScroll, false);
+  document.addEventListener('touchmove', keyboardPreventDefault, false);
 
   return details;
 }
@@ -128,7 +129,8 @@ function keyboardHide() {
   });
 
   // the keyboard is gone now, remove the touchmove that disables native scroll
-  document.removeEventListener('touchmove', keyboardDisableNativeScroll);
+  document.removeEventListener('touchmove', keyboardPreventDefault);
+  document.removeEventListener('keydown', keyboardOnKeyDown);
   window.removeEventListener('scroll', keyboardOnScroll);
 }
 
@@ -143,6 +145,16 @@ function keyboardOnScroll(e) {
     document.body.scrollTop = 0;
     document.body.querySelector('.scroll-content').scrollTop = 0;
   }
+}
+
+function keyboardOnKeyDown(e) {
+  if( ionic.scroll.isScrolling ) {
+    keyboardPreventDefault(e);
+  }
+}
+
+function keyboardPreventDefault(e) {
+  e.preventDefault();
 }
 
 function keyboardOrientationChange() {
@@ -167,10 +179,6 @@ function keyboardGetHeight() {
 
   // otherwise fall back to just guessing
   return DEFAULT_KEYBOARD_HEIGHT;
-}
-
-function keyboardDisableNativeScroll(e) {
-  e.preventDefault();
 }
 
 function keyboardIsWithinScroll(ele) {
