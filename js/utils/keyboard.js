@@ -194,7 +194,7 @@ function keyboardIsWithinScroll(ele) {
 
 function keyboardIsOverWebView() {
   return ( ionic.Platform.isIOS() ) ||
-         ( ionic.Platform.isWebView() && ionic.Platform.isAndroid() );
+         ( ionic.Platform.isAndroid() && !ionic.Platform.isWebView() );
 }
 
 function keyboardHasPlugin() {

@@ -83,11 +83,22 @@ describe('Ionic Keyboard', function() {
   });
 
   it('Should keyboardIsOverWebView()=false if Android and not isWebView', function(){
+    // Android browser places the keyboard on top of the content and doesn't resize the window
     ionic.Platform.setPlatform('Android');
     expect( ionic.Platform.isAndroid() ).toEqual(true);
     expect( ionic.Platform.isWebView() ).toEqual(false);
 
     expect( ionic.Platform.isIOS() ).toEqual(false);
+
+    expect( keyboardIsOverWebView() ).toEqual(true);
+  });
+
+  it('Should keyboardIsOverWebView()=false if Android and isWebView', function(){
+    // Android webview gets shrunk by cordova and the keyboard fills the gap
+    ionic.Platform.setPlatform('Android');
+    window.cordova = {};
+    expect( ionic.Platform.isAndroid() ).toEqual(true);
+    expect( ionic.Platform.isWebView() ).toEqual(true);
 
     expect( keyboardIsOverWebView() ).toEqual(false);
   });
