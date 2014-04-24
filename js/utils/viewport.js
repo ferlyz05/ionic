@@ -46,6 +46,6 @@ function viewportUpdate(updates) {
   viewportTag.content = props.join(',');
 }
 
-ionic.Platform.ready(function() {
+ionic.DomUtil.ready(function() {
   viewportLoadTag();
 });

@@ -20,15 +20,16 @@ ionic.keyboard = {
   height: null
 };
 
-function keyboardInit(documentBody) {
+function keyboardInit() {
   if( keyboardHasPlugin() ) {
     window.addEventListener('native.showkeyboard', keyboardNativeShow);
   }
-  documentBody.addEventListener('ionic.focusin', keyboardBrowserFocusIn);
-  documentBody.addEventListener('focusin', keyboardBrowserFocusIn);
 
-  documentBody.addEventListener('focusout', keyboardFocusOut);
-  documentBody.addEventListener('orientationchange', keyboardOrientationChange);
+  document.body.addEventListener('ionic.focusin', keyboardBrowserFocusIn);
+  document.body.addEventListener('focusin', keyboardBrowserFocusIn);
+
+  document.body.addEventListener('focusout', keyboardFocusOut);
+  document.body.addEventListener('orientationchange', keyboardOrientationChange);
 
   document.removeEventListener('touchstart', keyboardInit);
 }
@@ -161,7 +162,7 @@ function keyboardOrientationChange() {
   keyboardViewportHeight = window.innerHeight;
   setTimeout(function(){
     keyboardViewportHeight = window.innerHeight;
-  }, 1000);
+  }, 999);
 }
 
 function keyboardGetHeight() {
@@ -205,12 +206,10 @@ ionic.Platform.ready(function() {
 
   // Android sometimes reports bad innerHeight on window.load
   // try it again in a lil bit to play it safe
-  setTimeout(keyboardUpdateViewportHeight, 1000);
+  setTimeout(keyboardUpdateViewportHeight, 999);
 
   // only initialize the adjustments for the virtual keyboard
   // if a touchstart event happens
-  //document.addEventListener('touchstart', keyboardInit, false);
-  keyboardInit(document.body);
-
+  document.addEventListener('touchstart', keyboardInit, false);
 });
 
