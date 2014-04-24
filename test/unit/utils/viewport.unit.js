@@ -23,14 +23,32 @@ describe('Ionic Viewport', function() {
     ionic.Platform.setPlatform('');
     ionic.Platform.setVersion('');
     ionic.keyboard.isOpen = false;
+
+    var vportTag = document.createElement('meta');
+    vportTag.setAttribute('name', 'viewport');
+    vportTag.setAttribute('class', 'viewportTest');
+    document.head.appendChild(vportTag);
+  
   }));
 
   afterEach(function(){
     window.setTimeout = window._setTimeout;
+    //getElementById was returning an invalid object for some reason
+    var vportTag = document.getElementsByClassName('viewportTest')[0];
+    vportTag.parentNode.removeChild(vportTag);
   });
 
   it('Should have height=device-height for iOS 7+ on webview', function(){
+    ionic.Platform.setPlatform('iOS');
+    ionic.Platform.setVersion('7.0');
+    expect( ionic.Platform.isAndroid() ).toEqual(false);
+    expect( ionic.Platform.isIOS() ).toEqual(true);
+    //
+    //so isWebView() is true
+    window.cordova = {};
 
+    viewportLoadTag();
+    expect( viewportProperties.height ).toEqual('device-height'); 
   });
 
   it('Should not have height=device-height for iOS 7+ on browser', function(){

@@ -89,16 +89,16 @@ describe('Ionic Keyboard', function() {
 
     expect( ionic.Platform.isIOS() ).toEqual(false);
 
-    expect( keyboardIsOverWebView() ).toEqual(true);
+    expect( keyboardIsOverWebView() ).toEqual(false);
   });
 
-  xit('Should keyboardIsOverWebView()=false if iOS 7.0 or greater', function(){
+  it('Should keyboardIsOverWebView()=true if iOS 7.0 or greater', function(){
     ionic.Platform.setPlatform('iOS');
     ionic.Platform.setVersion('7.0');
     expect( ionic.Platform.isAndroid() ).toEqual(false);
     expect( ionic.Platform.isIOS() ).toEqual(true);
 
-    expect( keyboardIsOverWebView() ).toEqual(false);
+    expect( keyboardIsOverWebView() ).toEqual(true);
   });
 
   it('Should keyboardIsOverWebView()=true if less than iOS 7.0', function(){
