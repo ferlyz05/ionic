@@ -11,7 +11,6 @@ var keyboardActiveElement;
 var keyboardFocusOutTimer;
 var keyboardFocusInTimer;
 
-var DEFAULT_KEYBOARD_HEIGHT = 275;
 var KEYBOARD_OPEN_CSS = 'keyboard-open';
 var SCROLL_CONTAINER_CSS = 'scroll';
 
@@ -171,15 +170,24 @@ function keyboardGetHeight() {
     return ionic.keyboard.height;
   }
 
+  // fallback for when its the webview without the plugin
+  // or for just the standard web browser
   if( ionic.Platform.isIOS() ) {
     if( ionic.Platform.isWebView() ) {
       return 200;
     }
     return 220;
+  } else if( ionic.Platform.isAndroid() ) {
+    if( ionic.Platform.isWebView() ) {
+      return 220;
+    }
+    if( ionic.Platform.version() <= 4.3) {
+      return 230;
+    }
   }
 
-  // otherwise fall back to just guessing
-  return DEFAULT_KEYBOARD_HEIGHT;
+  // safe guess
+  return 275;
 }
 
 function keyboardIsWithinScroll(ele) {
