@@ -25,12 +25,18 @@ function viewportLoadTag() {
 }
 
 function viewportInitWebView() {
+  var hasViewportChange = false;
+
   if( ionic.Platform.isWebView() ) {
-    viewportProperties.height = 'device-height';
-  } else {
+    if( viewportProperties.height != 'device-height' ) {
+      viewportProperties.height = 'device-height';
+      hasViewportChange = true;
+    }
+  } else if( viewportProperties.height ) {
     delete viewportProperties.height;
+    hasViewportChange = true;
   }
-  viewportUpdate();
+  if(hasViewportChange) viewportUpdate();
 }
 
 function viewportUpdate(updates) {
