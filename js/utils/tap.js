@@ -292,9 +292,10 @@ function tapTouchEnd(e) {
 
   tapTouchCancel();
 
-  if( ionic.tap.isLabelWithTextInput(e.target) ) {
+  if( ionic.tap.isLabelWithTextInput(e.target) && ionic.Platform.isIOS() ) {
     // if the tapped element is a label, which has a child input
     // then prevent the default so iOS doesn't auto scroll to the input
+    // do not prevent default on Android or else you cannot move the text caret
     e.preventDefault();
   }
 }
