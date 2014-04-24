@@ -165,9 +165,9 @@ function keyboardGetHeight() {
   // or for just the standard web browser
   if( ionic.Platform.isIOS() ) {
     if( ionic.Platform.isWebView() ) {
-      return 200;
+      return 260;
     }
-    return 220;
+    return 216;
   } else if( ionic.Platform.isAndroid() ) {
     if( ionic.Platform.isWebView() ) {
       return 220;
