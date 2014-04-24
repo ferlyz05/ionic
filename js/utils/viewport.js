@@ -4,7 +4,9 @@ var viewportProperties = {};
 
 
 function viewportLoadTag() {
-  for(var x=0; x<document.head.children.length; x++) {
+  var x;
+
+  for(x=0; x<document.head.children.length; x++) {
     if(document.head.children[x].name == 'viewport') {
       viewportTag = document.head.children[x];
       break;
@@ -13,7 +15,7 @@ function viewportLoadTag() {
 
   if(viewportTag) {
     var props = viewportTag.content.toLowerCase().replace(/\s+/g, '').split(',');
-    var x, keyValue;
+    var keyValue;
     for(x=0; x<props.length; x++) {
       keyValue = props[x].split('=');
       if(keyValue.length == 2) viewportProperties[ keyValue[0] ] = keyValue[1];
