@@ -635,6 +635,21 @@ describe('Ionic Tap', function() {
     expect( e.preventedDefault ).toBeDefined();
   });
 
+  it('Should allow a click that is a from an "Enter" or "Go" keypress submit', function() {
+    var target = document.createElement('button');
+    target.type = 'submit';
+    var e = {
+      target: target,
+      detail: 0,
+      stopPropagation: function(){ this.stoppedPropagation = true; },
+      preventDefault: function(){ this.preventedDefault = true; }
+    };
+    tapClickGateKeeper(e);
+
+    expect( e.stoppedPropagation ).toBeUndefined();
+    expect( e.preventedDefault ).toBeUndefined();
+  });
+
   it('Should allow a click that is a tapClick', function() {
     var e = {
       target: document.createElement('input'),

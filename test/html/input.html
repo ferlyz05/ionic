@@ -65,6 +65,8 @@
 
       <ion-content class="padding">
 
+        <form ng-submit="formSubmit()">
+
         <div class="list">
           <label class="item item-input">
             <span class="input-label">Your Name</span>
@@ -153,9 +155,15 @@
           <textarea id="textarea"></textarea>
         </label>
 
-        <button class="button button-block button-energized" ng-click="openModal()">
+        <button type="button" class="button button-block button-energized" ng-click="openModal()">
           Open Modal
         </button>
+
+        <button type="submit" class="button button-block button-calm">
+          Submit!
+        </button>
+
+        </form>
 
         <p>
           <a href="clickTests.html">Click Tests</a> -
@@ -244,6 +252,10 @@
           animation: 'slide-in-up',
           focusFirstInput: true
         });
+
+        $scope.formSubmit = function(){
+          alert('SUBMIT!');
+        };
 
       })
 
